@@ -17,8 +17,8 @@ window.config = {
         supportsReject: false,
         supportsStow: false,
         imageRendering: 'wadors',
-        thumbnailRendering: 'wadors',
-      },
-    },
-  ],
+        thumbnailRendering: 'wadors'
+      }
+    }
+  ]
 };

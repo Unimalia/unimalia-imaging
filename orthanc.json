@@ -21,7 +21,7 @@
   "DicomWeb": {
     "Enable": true,
     "Root": "/dicom-web/",
-    "PublicRoot": "https://unimalia-imaging.onrender.com/orthanc/dicom-web/",
+    "PublicRoot": "/orthanc/dicom-web/",
     "EnableWado": true,
     "WadoRoot": "/wado"
   }

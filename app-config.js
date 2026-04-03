@@ -1,23 +1,24 @@
 window.config = {
-  routerBasename: "/",
+  routerBasename: '/',
   extensions: [],
-
+  modes: [],
+  showStudyList: true,
+  defaultDataSourceName: 'dicomweb',
   dataSources: [
     {
-      namespace: "@ohif/extension-default.dataSourcesModule.dicomweb",
-      sourceName: "dicomweb",
+      namespace: '@ohif/extension-default.dataSourcesModule.dicomweb',
+      sourceName: 'dicomweb',
       configuration: {
-        friendlyName: "UNIMALIA Orthanc",
-
-        qidoRoot: "/dicom-web",
-        wadoRoot: "/dicom-web",
-        wadoUriRoot: "/wado",
-
-        supportsFuzzyMatching: true,
-        supportsWildcard: true,
+        friendlyName: 'UNIMALIA Orthanc',
+        qidoRoot: '/dicom-web',
+        wadoRoot: '/dicom-web',
+        wadoUriRoot: '/wado',
+        qidoSupportsIncludeField: true,
+        supportsReject: false,
+        supportsStow: false,
+        imageRendering: 'wadors',
+        thumbnailRendering: 'wadors',
       },
     },
   ],
-
-  defaultDataSourceName: "dicomweb",
 };

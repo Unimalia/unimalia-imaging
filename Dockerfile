@@ -1,44 +1,31 @@
-FROM node:18-alpine
+FROM ohif/app:v3.9.2 AS ohif
 
-# Install nginx + tools
-RUN apk add --no-cache nginx curl bash
+FROM debian:bookworm-slim
 
-# -----------------------
-# ORTHANC
-# -----------------------
-RUN mkdir -p /orthanc
-COPY orthanc.json /orthanc/orthanc.json
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Install Orthanc
-RUN apk add --no-cache orthanc
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    wget \
+    curl \
+    gnupg \
+    apt-transport-https \
+    nginx \
+ && wget -qO - https://orthanc.uclouvain.be/debian/archive.key | gpg --dearmor -o /usr/share/keyrings/orthanc.gpg \
+ && echo "deb [signed-by=/usr/share/keyrings/orthanc.gpg] https://orthanc.uclouvain.be/debian/ bookworm main" > /etc/apt/sources.list.d/orthanc.list \
+ && apt-get update \
+ && apt-get install -y \
+    orthanc \
+    orthanc-dicomweb \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
-# -----------------------
-# OHIF BUILD
-# -----------------------
-RUN mkdir /ohif
-WORKDIR /ohif
-
-RUN git clone https://github.com/OHIF/Viewers.git .
-
-RUN yarn install
-RUN yarn build
-
-# -----------------------
-# NGINX CONFIG
-# -----------------------
-RUN mkdir -p /run/nginx
+COPY orthanc.json /etc/orthanc/orthanc.json
 COPY nginx.conf /etc/nginx/nginx.conf
-
-# OHIF static
-RUN cp -r /ohif/platform/app/dist/* /usr/share/nginx/html/
-
-# Custom config
 COPY app-config.js /usr/share/nginx/html/app-config.js
 
-# -----------------------
-# START SCRIPT
-# -----------------------
-CMD sh -c "\
-orthanc /orthanc/orthanc.json & \
-nginx -g 'daemon off;' \
-"
+COPY --from=ohif /usr/share/nginx/html/ /usr/share/nginx/html/
+
+RUN mkdir -p /var/lib/orthanc/db /run/nginx
+
+CMD sh -c "Orthanc /etc/orthanc/orthanc.json & nginx -g 'daemon off;'"

@@ -3,22 +3,27 @@ window.config = {
   extensions: [],
   modes: [],
   showStudyList: true,
-  defaultDataSourceName: 'dicomweb',
+  defaultDataSourceName: 'unimalia',
   dataSources: [
     {
       namespace: '@ohif/extension-default.dataSourcesModule.dicomweb',
-      sourceName: 'dicomweb',
+      sourceName: 'unimalia',
       configuration: {
         friendlyName: 'UNIMALIA Orthanc',
-        qidoRoot: '/dicom-web',
-        wadoRoot: '/dicom-web',
-        wadoUriRoot: '/wado',
+        name: 'unimalia',
+        qidoRoot: '/orthanc/dicom-web',
+        wadoRoot: '/orthanc/dicom-web',
+        wadoUriRoot: '/orthanc/wado',
         qidoSupportsIncludeField: true,
         supportsReject: false,
         supportsStow: false,
         imageRendering: 'wadors',
-        thumbnailRendering: 'wadors'
-      }
-    }
-  ]
+        thumbnailRendering: 'wadors',
+      },
+    },
+  ],
+  httpErrorHandler: error => {
+    console.warn(error?.status ?? error);
+    console.warn(error);
+  },
 };

@@ -26,9 +26,18 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 COPY --from=ohif /usr/share/nginx/html/ /usr/share/nginx/html/
 
-# Elimina la config demo e sostituiscila davvero
-RUN rm -f /usr/share/nginx/html/config/default.js
+RUN mkdir -p /usr/share/nginx/html/config
+RUN mkdir -p /usr/share/nginx/html/platform/viewer
+
+COPY app-config.js /usr/share/nginx/html/app-config.js
 COPY app-config.js /usr/share/nginx/html/config/default.js
+COPY app-config.js /usr/share/nginx/html/config/app-config.js
+COPY app-config.js /usr/share/nginx/html/platform/viewer/app-config.js
+
+RUN echo "=== /usr/share/nginx/html/app-config.js ===" && cat /usr/share/nginx/html/app-config.js || true
+RUN echo "=== /usr/share/nginx/html/config/default.js ===" && cat /usr/share/nginx/html/config/default.js || true
+RUN echo "=== /usr/share/nginx/html/config/app-config.js ===" && cat /usr/share/nginx/html/config/app-config.js || true
+RUN echo "=== /usr/share/nginx/html/platform/viewer/app-config.js ===" && cat /usr/share/nginx/html/platform/viewer/app-config.js || true
 
 RUN mkdir -p /var/lib/orthanc/db /run/nginx
 

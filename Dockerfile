@@ -1,35 +1,24 @@
-FROM ohif/app:v3.9.2 AS ohif
+FROM ohif/app:v3.9.2
 
-FROM debian:bookworm-slim
-
-ENV DEBIAN_FRONTEND=noninteractive
 ENV PORT=10000
 
+# Install Orthanc + plugin
 RUN apt-get update && apt-get install -y \
-    ca-certificates \
-    wget \
-    curl \
-    gnupg \
-    apt-transport-https \
-    nginx \
- && wget -qO - https://orthanc.uclouvain.be/debian/archive.key | gpg --dearmor -o /usr/share/keyrings/orthanc.gpg \
- && echo "deb [signed-by=/usr/share/keyrings/orthanc.gpg] https://orthanc.uclouvain.be/debian/ bookworm main" > /etc/apt/sources.list.d/orthanc.list \
- && apt-get update \
- && apt-get install -y \
     orthanc \
     orthanc-dicomweb \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+    nginx \
+ && apt-get clean
 
+# Copia config Orthanc
 COPY orthanc.json /etc/orthanc/orthanc.json
-COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY --from=ohif /usr/share/nginx/html/ /usr/share/nginx/html/
+# 🔴 SOVRASCRIVE CONFIG OHIF
+COPY app-config.js /usr/share/nginx/html/app-config.js
 
-RUN mkdir -p /usr/share/nginx/html/config
-COPY app-config.js /usr/share/nginx/html/config/default.js
+# 🔴 FORZA OHIF A USARE LA CONFIG GIUSTA
+RUN sed -i 's|config/default.js|app-config.js|g' /usr/share/nginx/html/index.html
 
-RUN mkdir -p /var/lib/orthanc/db /run/nginx
+RUN mkdir -p /var/lib/orthanc/db
 
 EXPOSE 10000
 

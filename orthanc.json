@@ -6,7 +6,7 @@
   "StorageDirectory": "/var/lib/orthanc/db",
   "IndexDirectory": "/var/lib/orthanc/db",
 
-  "DicomServerEnabled": true,
+  "DicomServerEnabled": false,
   "DicomAet": "UNIMALIA",
   "DicomPort": 4242,
 

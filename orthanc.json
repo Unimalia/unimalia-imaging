@@ -20,9 +20,9 @@
 
   "DicomWeb": {
     "Enable": true,
-    "Root": "/dicom-web/",
+    "Root": "/orthanc/dicom-web/",
     "PublicRoot": "/orthanc/dicom-web/",
     "EnableWado": true,
-    "WadoRoot": "/wado"
+    "WadoRoot": "/orthanc/wado"
   }
 }

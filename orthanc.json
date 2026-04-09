@@ -2,22 +2,17 @@
   "Name": "UNIMALIA Orthanc",
   "RemoteAccessAllowed": true,
   "AuthenticationEnabled": false,
-
   "StorageDirectory": "/var/lib/orthanc/db",
   "IndexDirectory": "/var/lib/orthanc/db",
-
   "DicomServerEnabled": false,
   "DicomAet": "UNIMALIA",
   "DicomPort": 4242,
-
   "HttpServerEnabled": true,
   "HttpPort": 8042,
   "SslEnabled": false,
-
   "Plugins": [
     "/usr/share/orthanc/plugins"
   ],
-
   "DicomWeb": {
     "Enable": true,
     "Root": "/orthanc/dicom-web/",

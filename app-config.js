@@ -1,7 +1,5 @@
 window.config = {
   routerBasename: '/',
-  extensions: [],
-  modes: [],
   showStudyList: true,
   defaultDataSourceName: 'unimalia',
   dataSources: [
@@ -11,9 +9,9 @@ window.config = {
       configuration: {
         friendlyName: 'UNIMALIA Orthanc',
         name: 'unimalia',
-        qidoRoot: '/orthanc/dicom-web',
-        wadoRoot: '/orthanc/dicom-web',
-        wadoUriRoot: '/orthanc/wado',
+        qidoRoot: 'https://unimalia-imaging.onrender.com/orthanc/dicom-web',
+        wadoRoot: 'https://unimalia-imaging.onrender.com/orthanc/dicom-web',
+        wadoUriRoot: 'https://unimalia-imaging.onrender.com/orthanc/wado',
         qidoSupportsIncludeField: true,
         supportsReject: false,
         supportsStow: false,
